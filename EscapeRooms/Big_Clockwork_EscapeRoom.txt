@@ -1,0 +1,92 @@
+ER_BEGIN
+TITLE=Clockwork Manor
+STRUCTURE=LINEAR
+WIN=REACH_FINAL_ROOM_AND_COMPLETE
+
+ROOM_BEGIN
+ID=foyer
+TITLE=Grand Foyer
+MODE=LINEAR
+DESC=You stand in a grand foyer filled with ticking clocks and dusty portraits.
+
+PUZZLE_BEGIN
+ID=clock_riddle
+TYPE=TEXT
+PROMPT=I have hands but cannot clap. I have a face but cannot smile. What am I?
+ANSWER=clock
+VALIDATION=FLEXIBLE
+HINT=You hear it ticking on the wall.
+MAX_ATTEMPTS=3
+PUZZLE_END
+
+PUZZLE_BEGIN
+ID=math_lock
+TYPE=MATH
+PROMPT=If a clock strikes once at 1 and twice at 2, how many strikes total from 1 to 4?
+ANSWER=10
+VALIDATION=EXACT
+HINT=Add them together.
+MAX_ATTEMPTS=3
+PUZZLE_END
+ROOM_END
+
+ROOM_BEGIN
+ID=library
+TITLE=Clockwork Library
+MODE=SEMI_OPEN
+SEMI_RULE=LAST_UNLOCK_AFTER_N_SOLVED
+SEMI_N=1
+DESC=Shelves of mechanical books whirr softly.
+
+PUZZLE_BEGIN
+ID=gear_code
+TYPE=TEXT
+PROMPT=The note reads: 'Turn me forward but never back.' What am I?
+ANSWER=time
+VALIDATION=FLEXIBLE
+HINT=It waits for no one.
+MAX_ATTEMPTS=3
+PUZZLE_END
+
+PUZZLE_BEGIN
+ID=final_safe
+TYPE=MULTIPLE_CHOICE
+PROMPT=Which gear controls the others?
+OPTIONS=Main Gear\sepSmall Gear\sepBroken Gear
+ANSWER=Main Gear
+VALIDATION=EXACT
+HINT=The biggest piece matters most.
+MAX_ATTEMPTS=2
+PUZZLE_END
+ROOM_END
+
+ROOM_BEGIN
+ID=workshop
+TITLE=Hidden Workshop
+MODE=OPEN
+OPEN_STYLE=SWITCHER
+DESC=Steam hisses from brass machines.
+
+PUZZLE_BEGIN
+ID=true_false_test
+TYPE=TRUE_FALSE
+PROMPT=True or False: A pendulum speeds up as it swings.
+OPTIONS=True|False
+ANSWER=False
+VALIDATION=EXACT
+HINT=Physics says otherwise.
+MAX_ATTEMPTS=2
+PUZZLE_END
+
+PUZZLE_BEGIN
+ID=final_math
+TYPE=MATH
+PROMPT=If a gear has 12 teeth and turns 3 times, how many teeth pass a point?
+ANSWER=36
+VALIDATION=EXACT
+HINT=Multiply.
+MAX_ATTEMPTS=3
+PUZZLE_END
+ROOM_END
+
+ER_END

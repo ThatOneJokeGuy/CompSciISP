@@ -1,0 +1,76 @@
+ER_BEGIN
+TITLE=Open Mode Demo (4 Puzzles)
+STRUCTURE=LINEAR
+WIN=REACH_FINAL_ROOM_AND_COMPLETE
+WIN_ROOM_ID=
+
+ROOM_BEGIN
+ID=room1
+TITLE=The Open Trio
+MODE=OPEN
+DESC=Solve the first three puzzles in any order. Remember each answer exactly as shown.
+SEMI_RULE=LAST_UNLOCK_AFTER_ALL_OTHERS_SOLVED
+SEMI_N=2
+SEMI_PERCENT=50
+OPEN_STYLE=SWITCHER
+PUZZLES_PER_WINDOW=1
+
+PUZZLE_BEGIN
+ID=r1_p1
+TYPE=TEXT
+PROMPT=Puzzle 1: Type the color of the Canadian flag (one word).
+ANSWER=red
+VALIDATION=FLEXIBLE
+HINT=It's the color of the maple leaf.
+MAX_ATTEMPTS=3
+OPTIONS=
+PUZZLE_END
+
+PUZZLE_BEGIN
+ID=r1_p2
+TYPE=MATH
+PROMPT=Puzzle 2: What is 3+4? (Type just the number.)
+ANSWER=7
+VALIDATION=EXACT
+HINT=Count up four from three.
+MAX_ATTEMPTS=3
+OPTIONS=
+PUZZLE_END
+
+PUZZLE_BEGIN
+ID=r1_p3
+TYPE=TRUE_FALSE
+PROMPT=Puzzle 3: True or False: Java is case-sensitive.
+ANSWER=true
+VALIDATION=FLEXIBLE
+HINT=Think about "String" vs "string".
+MAX_ATTEMPTS=3
+OPTIONS=
+PUZZLE_END
+
+ROOM_END
+
+ROOM_BEGIN
+ID=room2
+TITLE=The Final Lock
+MODE=LINEAR
+DESC=This final puzzle is only reachable after you finish Room 1. Combine the first three answers with single spaces.
+SEMI_RULE=LAST_UNLOCK_AFTER_ALL_OTHERS_SOLVED
+SEMI_N=0
+SEMI_PERCENT=100
+OPEN_STYLE=SWITCHER
+PUZZLES_PER_WINDOW=1
+
+PUZZLE_BEGIN
+ID=r2_p1
+TYPE=TEXT
+PROMPT=Final Puzzle: Type the combined key as: answer1 answer2 answer3 (with SINGLE spaces). Example format: red 7 true
+ANSWER=red 7 true
+VALIDATION=FLEXIBLE
+HINT=Use the three answers from Room 1 in order.
+MAX_ATTEMPTS=5
+OPTIONS=
+PUZZLE_END
+
+ROOM_END
+ER_END
