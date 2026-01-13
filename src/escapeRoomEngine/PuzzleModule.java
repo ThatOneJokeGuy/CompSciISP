@@ -8,8 +8,8 @@ public class PuzzleModule {
 	public static int attempts = 0;
 	public static boolean solved = false;
 	
-	public void createPuzzle(String puzzleType, int id) {
-		
+	public void createPuzzle(String puzzleType, String winCondition, int id, int puzzleID) {
+		super();
 	}
 	
 	public void solve(String attempt) {
