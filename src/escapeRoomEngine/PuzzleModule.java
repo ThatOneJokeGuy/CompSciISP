@@ -34,4 +34,5 @@ public class PuzzleModule {
 	public String getDescription() { return desc; }
 	public boolean isSolved() { return solved; }
 	public int getAttempts() { return attempts; }
+	public void setSolved(boolean solved) {this.solved = solved; }
 }
