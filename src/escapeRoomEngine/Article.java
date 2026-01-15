@@ -2,7 +2,6 @@ package escapeRoomEngine;
 
 /*
  * Article
- * 
  * - name : String
  * - desc : String
  * + getName() : String

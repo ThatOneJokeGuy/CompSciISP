@@ -2,7 +2,6 @@ package escapeRoomEngine;
 
 /*
  * Item
- *
  * - breakable : boolean
  * - useCount  : int
  * + use() : void
