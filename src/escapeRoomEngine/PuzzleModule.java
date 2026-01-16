@@ -20,7 +20,7 @@ public class PuzzleModule { //class identifier
 	private boolean solved = false;
 	
 	//constructor method
-	public PuzzleModule(String name, String desc, String puzzleType, String solution, int attemptsToSolve, int puzzleID, boolean needsItem, boolean solved) {
+	public PuzzleModule(String name, String desc, String puzzleType, String solution, int attemptsToSolve, boolean solved) {
 		this.name = name;
 		this.desc = desc;
 		this.puzzleType = puzzleType;

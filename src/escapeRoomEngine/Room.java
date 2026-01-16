@@ -385,7 +385,7 @@ public class Room {
 		// iterates for the number of items to initialize
 		for (int i = 0; i < names.length; i++) {
 			// adds each item the user had saved to the items ArrayList one by one
-			clues.add(new Article(names[i], descriptions[i]);
+			clues.add(new Article(names[i], descriptions[i]));
 		}
 	}
 
