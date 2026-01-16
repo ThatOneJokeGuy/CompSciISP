@@ -1,3 +1,5 @@
+package escapeRoomEngine;
+
 /*
  * Name: Anoosh B.
  * Date: 9/1/2026
