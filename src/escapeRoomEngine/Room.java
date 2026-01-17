@@ -30,44 +30,70 @@ public class Room {
 	// the current item the user is looking at in their inventory
 	private int currentItem;
 
+	
+	public Cell getCell(int r, int c) {
+		return cells[r][c];
+	}
+	
+	public int getMapLength() {
+		return cells[0].length;
+	}
+	
+	public int getMapHeight() {
+		return cells.length;
+	}
+	
+	
 	/**
 	 * The locomote method will allow the user to travel between rooms after pressing
 	 * the relevant buttons in the GUI and giving a direction of movement to this method.
-	 * The user will be able to move, up, down, left, and right on the map, given that a specific cell
-	 * isn't a blank space on the map or out of bounds of the map.
+	 * The user will be able to a specific cell given that it isn't a blank space 
+	 * on the map.
 	 */
-	public void locomote(String dir) {
-		// initializes nextPosition as the currentCell position
-		int[] nextPosition = currentCell;
+	
+	public boolean locomote(int r, int c) {
 		
-		// this switch statement examines the input to determine which
-		// direction the user will be moving, and adjusts the next position accordingly
-		switch (dir) {
-		case "up":
-			nextPosition[1]--;
-			break;
-		case "down":
-			nextPosition[1]++;
-			break;
-		case "left":
-			nextPosition[0]--;
-			break;
-		case "right":
-			nextPosition[0]++;
-			break;
+		if (cells[r][c] != null) {
+			currentCell[0] = r;
+			currentCell[1] = c;
+			return true;
 		}
 		
-		// checks if the next position is within the bounds of the map
-		if ((nextPosition[0] < cells.length) && (nextPosition[0] > -1) && 
-				(nextPosition[1] < cells[1].length) && (nextPosition[1] > -1)) {
-			
-			// checks if the next position is not an empty cell
-			if (cells[nextPosition[0]][nextPosition[1]] != null) {
-				// changes the users current position to where they were moving
-				currentCell = nextPosition;
-			}
-		}
+		return false;
 	}
+	
+//	public void locomote(String dir) {
+//		// initializes nextPosition as the currentCell position
+//		int[] nextPosition = currentCell;
+//		
+//		// this switch statement examines the input to determine which
+//		// direction the user will be moving, and adjusts the next position accordingly
+//		switch (dir) {
+//		case "up":
+//			nextPosition[1]--;
+//			break;
+//		case "down":
+//			nextPosition[1]++;
+//			break;
+//		case "left":
+//			nextPosition[0]--;
+//			break;
+//		case "right":
+//			nextPosition[0]++;
+//			break;
+//		}
+//		
+//		// checks if the next position is within the bounds of the map
+//		if ((nextPosition[0] < cells.length) && (nextPosition[0] > -1) && 
+//				(nextPosition[1] < cells[1].length) && (nextPosition[1] > -1)) {
+//			
+//			// checks if the next position is not an empty cell
+//			if (cells[nextPosition[0]][nextPosition[1]] != null) {
+//				// changes the users current position to where they were moving
+//				currentCell = nextPosition;
+//			}
+//		}
+//	}
 
 	/**
 	 * The load method will take in a file and load the game state saved within the file
@@ -78,7 +104,7 @@ public class Room {
 		// initializes new variable currentLine to be able to store the lines being read by the scanner
 		String currentLine = fsc.nextLine();
 		// initializes the dimensions of the cells from the file
-		cells = new Cell[Integer.parseInt((currentLine.split(","))[0])][Integer.parseInt((currentLine.split(","))[1])];
+		cells = new Cell[Integer.parseInt((currentLine.split(","))[0]) + 1][Integer.parseInt((currentLine.split(","))[1]) + 1];
 
 		// reads next line
 		currentLine = fsc.nextLine();
@@ -132,7 +158,7 @@ public class Room {
 		// creates new PrintWriter PW to save the file
 		PrintWriter PW = new PrintWriter(myFile);
 		// adds the size of the map to the file
-		PW.println(cells.length + "," + cells[0].length + ",");
+		PW.println((cells.length - 1) + "," + (cells[0].length - 1) + ",");
 		// adds the current position of the player to the file
 		PW.println(currentCell[0] + "," + currentCell[1] + ",");
 		
@@ -159,29 +185,43 @@ public class Room {
 		PW.println(attempts);
 		
 		// initializes variables r and c for use of iterating through the cells
-		int r = 0;
-		int c = 0;
+//		int r = 0;
+//		int c = 0;
 		
 		// iterates through the map and saves the cells to the file
-		while ((r < cells.length) && (c < cells[r].length)) {
+		for (int r = 0; r < cells.length; r++) {
 			
-			// if the current cell is not empty
-			if (cells[r][c] != null) {
-				// saves the cell to the file
-				saveCells(PW, r, c);
-			}
-			
-			// adds 1 to the column counter
-			c++;
-			
-			// if the column of the next iteration would be out of bounds for the 2d array
-			if ((c > cells[r].length)) {
-				// adds 1 to row counter
-				r++;
-				// sets the column counter to 0
-				c = 0;
+			for (int c = 0; c < cells[r].length; c++) {
+				
+				if (cells[r][c] != null) {
+					System.out.println("Calling save cells");
+					saveCells(PW, r, c);
+				}
 			}
 		}
+		
+//		
+//		while ((r < cells.length) && (c < cells[r].length)) {
+//			
+//			System.out.println("Saving cell to file");
+//			
+//			// if the current cell is not empty
+//			if (cells[r][c] != null) {
+//				// saves the cell to the file
+//				saveCells(PW, r, c);
+//			}
+//			
+//			// adds 1 to the column counter
+//			c++;
+//			
+//			// if the column of the next iteration would be out of bounds for the 2d array
+//			if ((c > cells[r].length)) {
+//				// adds 1 to row counter
+//				r++;
+//				// sets the column counter to 0
+//				c = 0;
+//			}
+//		}
 		
 		// closes the PrintWriters stream
 		PW.close();
@@ -191,7 +231,7 @@ public class Room {
 	 * The saveCells method takes in the printwriter, the row of the current cell being saved, 
 	 * and the column, in order to properly save the cell to the file
 	 */
-	public void saveCells(PrintWriter PW, int r, int c) {
+	private void saveCells(PrintWriter PW, int r, int c) {
 		// adds the position of the current cell on the map to the file
 		PW.println(r + "," + c + ",");
 		Cell beingSaved = cells[r][c];
@@ -237,77 +277,103 @@ public class Room {
 	 * the saveItems method is made for the explicit purpose of saving the items the
 	 * player has currently attained to the file for the game state
 	 */
-	public void saveItems(PrintWriter PW) {
+	private void saveItems(PrintWriter PW) {
 		/*
 		initializes int saveCount to be used as a counter 
 		to determine if the names, descriptions, or breakability of items
 		are being saved next
 		*/
-		int saveCount = 0;
+		//int saveCount = 0;
+		
+		for (int i = 0; i < items.size(); i++) {
+			PW.print((items.get(i)).getName() + ":");
+		}
+		PW.println();
+		
+		for (int i = 0; i < items.size(); i++) {
+			PW.print((items.get(i)).getDesc() + ":");
+		}
+		PW.println();
+		
+		for (int i = 0; i < items.size(); i++) {
+			PW.print((items.get(i)).canBreak() + ":");
+		}
+		PW.println();
 		
 		// iterates through the users items and saves their names, descriptions,
 		// and whether they can break or not to the file
-		for (int i = 0; i < items.size(); i++) {
-			
-			// checks if its currently saving the names of items
-			if (saveCount == 0) {
-				PW.print((items.get(i)).getName() + "|");
-			}
-			// checks if its currently saving the descriptions of items
-			else if (saveCount == 1) {
-				PW.print((items.get(i)).getDesc() + "|");
-			}
-			// goes here if its currently saving the durability of items
-			else {
-				PW.print((items.get(i)).canBreak() + "|");
-			}
-			
-			// checks if it needs to update the counter after saving all the names or descriptions
-			if ((saveCount == items.size()) && (saveCount < 2)) {
-				i = 0;
-				saveCount++;
-				PW.println();
-			}
-		}
+//		for (int i = 0; i < items.size(); i++) {
+//			
+//			// checks if its currently saving the names of items
+//			if (saveCount == 0) {
+//				PW.print((items.get(i)).getName() + ":");
+//			}
+//			// checks if its currently saving the descriptions of items
+//			else if (saveCount == 1) {
+//				PW.print((items.get(i)).getDesc() + ":");
+//			}
+//			// goes here if its currently saving the durability of items
+//			else {
+//				PW.print((items.get(i)).canBreak() + ":");
+//			}
+//			
+//			// checks if it needs to update the counter after saving all the names or descriptions
+//			if ((saveCount == items.size() - 1) && (saveCount < 2)) {
+//				i = 0;
+//				saveCount++;
+//				PW.println();
+//			}
+//		}
 		
-		PW.println();
+//		PW.println();
 	}
 	
 	/**
 	 * the saveClues method is made for the explicit purpose of saving the clues the
 	 * player has currently attained to the file for the game state
 	 */
-	public void saveClues(PrintWriter PW) {
+	private void saveClues(PrintWriter PW) {
+		
+		for (int i = 0; i < clues.size(); i++) {
+			PW.print((clues.get(i)).getName() + ":");
+		}
+		PW.println();
+		
+		for (int i = 0; i < clues.size(); i++) {
+			PW.print((clues.get(i)).getDesc() + ":");
+		}
+		PW.println();
+		
 		/*
 		initializes int saveCount to be used as a counter 
 		to determine if the names or descriptions of clues are being saved next
 		*/
-		int saveCount = 0;
-		
-		// iterates through the users clues and saves their names and descriptions to the file
-		for (int i = 0; i < items.size(); i++) {
-			
-			// checks if its currently saving the names of clues
-			if (saveCount == 0) {
-				PW.print((clues.get(i)).getName() + "|");
-			}
-			// checks if its currently saving the descriptions of clues
-			else {
-				PW.print((clues.get(i)).getDesc() + "|");
-			}
-			
-			// checks if it needs to update the counter after saving all the names
-			if ((saveCount == clues.size()) && (saveCount < 1)) {
-				i = 0;
-				saveCount++;
-				PW.println();
-			}
-		}
-		
-		PW.println();
+//		int saveCount = 0;
+//		
+//		// iterates through the users clues and saves their names and descriptions to the file
+//		for (int i = 0; i < items.size(); i++) {
+//			
+//			// checks if its currently saving the names of clues
+//			if (saveCount == 0) {
+//				PW.print((clues.get(i)).getName() + ":");
+//			}
+//			// checks if its currently saving the descriptions of clues
+//			else {
+//				PW.print((clues.get(i)).getDesc() + ":");
+//			}
+//			
+//			// checks if it needs to update the counter after saving all the names
+//			if ((saveCount == clues.size() - 1) && (saveCount < 1)) {
+//				i = 0;
+//				saveCount++;
+//				PW.println();
+//			}
+//		}
+//		
+//		PW.println();
 	}
 
-	public void initializeCell(Scanner fsc) {
+	private void initializeCell(Scanner fsc) {
 		// gets the position of the cell in the 2d array from the file
 		String[] cellPosition = (fsc.nextLine()).split(",");
 		// gets the name of the puzzle in the cell
@@ -359,12 +425,12 @@ public class Room {
 	 * This method will take in 3 strings to use for initializing the items
 	 * the user has from the loaded session.
 	 */
-	public void initializeItems(String nameLine, String descLine, String canBreakLine) {
+	private void initializeItems(String nameLine, String descLine, String canBreakLine) {
 
 		// splits the nameLine to get a string array of names
-		String[] names = nameLine.split("|");
-		String[] descriptions = descLine.split("|");
-		String[] canBreaks = canBreakLine.split("|");
+		String[] names = nameLine.split(":");
+		String[] descriptions = descLine.split(":");
+		String[] canBreaks = canBreakLine.split(":");
 
 		// iterates for the number of items to initialize
 		for (int i = 0; i < names.length; i++) {
@@ -377,10 +443,10 @@ public class Room {
 	 * This method will take in 2 strings to use for initializing the clues
 	 * the user has from the loaded session.
 	 */
-	public void initializeClues(String nameLine, String descLine) {
+	private void initializeClues(String nameLine, String descLine) {
 
-		String[] names = nameLine.split("|");
-		String[] descriptions = descLine.split("|");
+		String[] names = nameLine.split(":");
+		String[] descriptions = descLine.split(":");
 
 		// iterates for the number of items to initialize
 		for (int i = 0; i < names.length; i++) {
@@ -388,5 +454,11 @@ public class Room {
 			clues.add(new Article(names[i], descriptions[i]));
 		}
 	}
+	
+	public ArrayList<Item> getItems() { return items; }
+	
+	public ArrayList<Article> getClues() { return clues; }
+	
+	public int[] getCurrentCell() { return currentCell; }
 
 }

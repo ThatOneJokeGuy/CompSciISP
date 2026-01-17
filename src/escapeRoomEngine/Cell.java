@@ -56,5 +56,9 @@ public class Cell {
 	// returns the reward of the cell
 	public Item getReward() { return reward; }
 	
+	// sets the cell to solved or not
+	public void setSolved(boolean solved) {
+	    this.solved = solved;
+	}
 
 }
