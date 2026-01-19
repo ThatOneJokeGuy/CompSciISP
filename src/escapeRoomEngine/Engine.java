@@ -153,7 +153,7 @@ public class Engine extends JFrame implements ActionListener {
 
     // Simple main to open the window
     public static void main(String[] args) {
-        new Engine();
+       Engine engine = new Engine();
     }
 
     // Create the 10x10 grid of JButtons and add ActionListeners
