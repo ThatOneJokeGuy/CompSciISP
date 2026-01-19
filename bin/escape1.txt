@@ -1,0 +1,64 @@
+9,9,
+2,2,
+Apple:Hotdog:Cake:
+Its an apple:Jack daniels?:Curse of Josh:
+true:true:false:
+A clue:mysterious:???:
+You'll never solve this one!:I wonder where that could be:I wasn't fast enough... not nearly fast enough:
+3
+2,2,
+First Puzzle
+This is a description
+riddle
+0
+moon
+false
+Dining room
+There is food here
+A secret pasage opened up and you have a key now
+true
+Key
+Used to open a door
+true
+2,3,
+First Puzzle
+This is a description
+riddle
+0
+moon
+false
+Kitchen
+There is also food here
+A secret pasage opened up and you have a key now
+true
+Key
+Used to open a door
+true
+2,4,
+First Puzzle
+This is a description
+riddle
+0
+moon
+false
+Guest Room
+Guests stay here
+A secret pasage opened up and you have a key now
+true
+Key
+Used to open a door
+true
+3,3,
+First Puzzle
+This is a description
+riddle
+0
+moon
+false
+Dining room
+There is food here
+A secret pasage opened up and you have a key now
+true
+Key
+Used to open a door
+true

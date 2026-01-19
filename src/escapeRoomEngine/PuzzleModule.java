@@ -1,5 +1,7 @@
 package escapeRoomEngine;
 
+
+
 /*
  * Name (Made By): Braydon Castle
  * Date: Jan 7th - 16th, 2026
@@ -7,16 +9,15 @@ package escapeRoomEngine;
  * of logic for the puzzles
  */
  
-public class PuzzleModule { //class identifier
+public abstract class PuzzleModule { //class identifier
 
 	//object variables
-	private String desc = "";
-	private String name = "";
-	private String puzzleType = "";
-	private String solution = "";
-	private int attempts = 0;
-	private int attemptsToSolve = 0;
-	private int puzzleID = 0;
+	private String desc;
+	private String name;
+	private String puzzleType;
+	private String solution;
+	private int attempts;
+	private int attemptsToSolve;
 	private boolean solved = false;
 	
 	//constructor method
@@ -24,21 +25,13 @@ public class PuzzleModule { //class identifier
 		this.name = name;
 		this.desc = desc;
 		this.puzzleType = puzzleType;
+		this.solution = solution;
 		this.solved = solved;
 		this.attemptsToSolve = attemptsToSolve;
-		this.puzzleID = puzzleID;	
 	}
 	
 	//method for handling the solving of a puzzle
-	public boolean solve(String attempt) {
-		if (attempt.equals(solution)) { //checks if attempt equals solution
-			solved = true; //sets solved to true
-		}
-		else { //checks if attempt doesn't equal solution
-			solved = false; //sets solved to false
-		}
-		return solved; //returns false
-	}
+	public abstract boolean solve(String attempt);
 	
 	//all of the getter and setter methods for the class
 	public String getName() { return name; }

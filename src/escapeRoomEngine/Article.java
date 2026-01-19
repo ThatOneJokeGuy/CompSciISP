@@ -1,10 +1,5 @@
-/*
- * Name: Colin
- * Date: 2026-01-10
- * Description: This class represents a general article in the escape room game.
- */
-
 package escapeRoomEngine;
+
 
 /*
  * Article

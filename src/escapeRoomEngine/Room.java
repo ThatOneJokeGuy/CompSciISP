@@ -22,9 +22,9 @@ public class Room {
 	// keeps track of the current position on the map where the player is
 	private int[] currentCell = new int[2];
 	// the items the player currently has
-	private ArrayList<Item> items;
+	private ArrayList<Item> items = new ArrayList<Item>();
 	// the clues the player currently has
-	private ArrayList<Article> clues;
+	private ArrayList<Article> clues = new ArrayList<Article>();
 	// the number of attempts the user has made on the puzzles in the escape room overall
 	private int attempts = 0;
 	// the current item the user is looking at in their inventory
@@ -61,6 +61,28 @@ public class Room {
 		
 		return false;
 	}
+	
+    // Try to solve the current cell's puzzle with the provided answer
+    public boolean solveCurrentCell(String answer) {
+    	
+    	Cell selectedCell = cells[currentCell[0]][currentCell[1]];
+        boolean correct = ((selectedCell.getPuzzle()).solve(answer));
+        
+    	if (correct) {
+    		selectedCell.getPuzzle().setSolved(true);
+    		
+    		if (selectedCell.givesItem()) {
+    			items.add(selectedCell.getReward());
+    		}
+    		else {
+    			clues.add(selectedCell.getReward());
+    		}
+    		
+    		return true;
+    	}
+    	
+    	return false;
+    }
 	
 //	public void locomote(String dir) {
 //		// initializes nextPosition as the currentCell position
@@ -131,6 +153,7 @@ public class Room {
 
 		// reads next line
 		currentLine = fsc.nextLine();
+		System.out.println(currentLine);
 
 		// checks if the user last saved with any items in their inventory
 		if (!(currentLine.equals(":"))) {
@@ -143,6 +166,7 @@ public class Room {
 
 		// fetches the total number of puzzle attempts for the room
 		attempts = Integer.parseInt(fsc.nextLine());
+		System.out.println(attempts);
 		// iterates through the rest of the file while there are rooms to load
 		while (fsc.hasNext()) {
 			initializeCell(fsc);
@@ -376,6 +400,7 @@ public class Room {
 	private void initializeCell(Scanner fsc) {
 		// gets the position of the cell in the 2d array from the file
 		String[] cellPosition = (fsc.nextLine()).split(",");
+		System.out.println("Cell position is " + cellPosition[0] + "," + cellPosition[1]);
 		// gets the name of the puzzle in the cell
 		String puzzleName = fsc.nextLine();
 		// gets the description of the puzzle in the cell
@@ -410,15 +435,27 @@ public class Room {
 		}
 		else {
 			// sets itemBreaks to null as this isn't an item and is a clue
-			itemBreaks = null;
+			itemBreaks = false;
 		}
+		
+		PuzzleModule cellPuzzle = new Riddle(puzzleName, puzzleDesc, puzzleType, solution, puzzleAttempts, puzzleSolved);
+		
+		if (puzzleType.equalsIgnoreCase("combination")) {
+			cellPuzzle = new Combination(puzzleName, puzzleDesc, puzzleType, solution, puzzleAttempts, puzzleSolved);
+
+		}
+		else if (puzzleType.equalsIgnoreCase("obstacle")) {
+			cellPuzzle = new Obstacle(puzzleName, puzzleDesc, puzzleType, solution, puzzleAttempts, puzzleSolved);
+		}
+		
 
 		// creates an object for the cell's puzzle
-		PuzzleModule cellPuzzle = new PuzzleModule(puzzleName, puzzleDesc, puzzleType, solution, puzzleAttempts, puzzleSolved);
+		System.out.println(cellPuzzle.getSolution());
 		// creates a sample item for the cell's reward
 		Item cellReward = new Item(articleName, articleDesc, itemBreaks);
 		// adds the completed cell to the cells 2d array
 		cells[Integer.parseInt(cellPosition[0])][Integer.parseInt(cellPosition[1])] = new Cell(cellName, cellDesc, solveMessage, puzzleSolved, cellGivesItem, cellReward, cellPuzzle);
+		System.out.println(cells[Integer.parseInt(cellPosition[0])][Integer.parseInt(cellPosition[1])]);
 	}
 
 	/**
@@ -460,5 +497,21 @@ public class Room {
 	public ArrayList<Article> getClues() { return clues; }
 	
 	public int[] getCurrentCell() { return currentCell; }
+
+	public void removeItem(String itemName) {
+		
+		for (int i = 0; i < items.size(); i++) {
+			Item currentItem = items.get(i);
+			
+			if (currentItem.getName().equals(itemName)) {
+				
+				if (currentItem.canBreak()) {
+					items.remove(i);
+				}
+				
+				break;
+			}
+		}
+	}
 
 }

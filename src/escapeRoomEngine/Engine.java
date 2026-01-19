@@ -200,6 +200,8 @@ public class Engine extends JFrame implements ActionListener {
             }
 
             // Update info for the currently selected cell
+            System.out.println(currentPos[0] + "," + currentPos[1]);
+            System.out.println(escapeRoom.getCell(currentPos[0], currentPos[1]));
             cellName.setText((escapeRoom.getCell(currentPos[0], currentPos[1])).getName());
 
             if ((escapeRoom.getCell(currentPos[0], currentPos[1])).isSolved()) {
@@ -238,13 +240,20 @@ public class Engine extends JFrame implements ActionListener {
 
         // Submit answer button inside puzzle panel
         if (component.equals(submitAnswerButton)) {
+        	
             if (roomLoaded) {
                 // attempt to solve current cell's puzzle using typed answer
-                boolean solved = trySolveCurrentCell(answerTF.getText());
+                boolean solved = escapeRoom.solveCurrentCell(answerTF.getText());
+                
                 if (solved) {
                     int[] pos = escapeRoom.getCurrentCell();
                     Cell cell = escapeRoom.getCell(pos[0], pos[1]);
-                    if (cell != null) puzzleResult.setText(cell.getSolveMessage());
+                    cell.setSolved(solved);
+                    puzzleResult.setText(cell.getSolveMessage());
+                    
+                    if ((cell.getPuzzle()).getPuzzleType().equals("obstacle")) {
+                    	escapeRoom.removeItem(answerTF.getText());
+                    }
                 }
                 else {
                     puzzleResult.setText("Incorrect.");
@@ -253,6 +262,7 @@ public class Engine extends JFrame implements ActionListener {
                 updateGrid();
                 refreshInventoryPanel(); // if reward was granted, update dropdowns
             }
+            
             return;
         }
 
@@ -406,6 +416,10 @@ public class Engine extends JFrame implements ActionListener {
     // Update the puzzle panel to show the puzzle for the current cell
     private void refreshPuzzlePanel() {
         if (!roomLoaded) return;
+        
+        answerTF.setVisible(true);
+        answerTF.setText("");
+        submitAnswerButton.setVisible(true);
 
         int[] pos = escapeRoom.getCurrentCell();
         Cell cell = escapeRoom.getCell(pos[0], pos[1]);
@@ -425,40 +439,11 @@ public class Engine extends JFrame implements ActionListener {
         // show the cell's solved message if already solved
         if (cell.isSolved()) {
             puzzleResult.setText(cell.getSolveMessage());
+            answerTF.setVisible(false);
+            submitAnswerButton.setVisible(false);
         } else {
             puzzleResult.setText(" ");
         }
     }
-
-    // Try to solve the current cell's puzzle with the provided answer
-    private boolean trySolveCurrentCell(String answer) {
-        int[] pos = escapeRoom.getCurrentCell();
-        Cell cell = escapeRoom.getCell(pos[0], pos[1]);
-        if (cell == null) return false;
-
-        // already solved? then just return true
-        if (cell.isSolved()) return true;
-
-        PuzzleModule pz = cell.getPuzzle();
-
-        // Use the PuzzleModule's own solve method (requires solution to be stored correctly)
-        boolean solvedNow = pz.solve(answer);
-
-        if (solvedNow) {
-            // mark cell solved normally
-            cell.setSolved(true);
-
-            // give reward once
-            if (cell.givesItem()) {
-                // add actual item to player's inventory
-                escapeRoom.getItems().add(cell.getReward());
-            } else {
-                // convert item reward into a clue/article
-                Item reward = cell.getReward();
-                escapeRoom.getClues().add(new Article(reward.getName(), reward.getDesc()));
-            }
-        }
-
-        return solvedNow;
-    }
+    
 }
