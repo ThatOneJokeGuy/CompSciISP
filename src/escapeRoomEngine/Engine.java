@@ -8,7 +8,6 @@ package escapeRoomEngine;
  */
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -322,10 +321,9 @@ public class Engine extends JFrame implements ActionListener {
                 }
             }
         }
-
     }
 
-    // Build the Inventory and Puzzle panels and wire their internal listeners
+    // Build the Inventory and Puzzle panels and connect their internal listeners
     private void setupSelectedBoxTabs() {
         selectedBox.setLayout(new BorderLayout());
         selectedBox.add(cardPanel, BorderLayout.CENTER);
@@ -445,5 +443,4 @@ public class Engine extends JFrame implements ActionListener {
             puzzleResult.setText(" ");
         }
     }
-    
 }

@@ -1,14 +1,13 @@
 9,9,
 2,2,
-Apple:Hotdog:Cake:
-Its an apple:Jack daniels?:Curse of Josh:
-true:true:false:
-A clue:mysterious:???:
-You'll never solve this one!:I wonder where that could be:I wasn't fast enough... not nearly fast enough:
-3
+Apple:
+Its an apple:
+true:
+:
+0
 2,2,
 First Puzzle
-This is a description
+the answer is moon
 riddle
 0
 moon
@@ -21,44 +20,43 @@ Key
 Used to open a door
 true
 2,3,
-First Puzzle
-This is a description
+Second Puzzle
+Answer is ants
 riddle
 0
-moon
+ants
 false
 Kitchen
 There is also food here
-A secret pasage opened up and you have a key now
-true
-Key
-Used to open a door
-true
+A book fell over revealing a picture frame
+false
+Picture
+1232
 2,4,
-First Puzzle
-This is a description
-riddle
+Grandfather clock
+There seems to be a padlock here... Enter an item to use
+obstacle
 0
-moon
+Key
 false
 Guest Room
 Guests stay here
-A secret pasage opened up and you have a key now
+The clock opened to reveal something
 true
-Key
-Used to open a door
-true
-3,3,
-First Puzzle
-This is a description
-riddle
-0
-moon
+Something
+TestItem4
 false
-Dining room
-There is food here
-A secret pasage opened up and you have a key now
-true
-Key
-Used to open a door
-true
+3,3,
+Another puzzle
+Its a padlock, enter the code from the picture
+combination
+0
+1232
+false
+Bathroom
+Its a bathroom
+You now have another clue
+false
+Clue1
+TestClue
+
