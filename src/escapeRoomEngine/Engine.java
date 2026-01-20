@@ -204,11 +204,12 @@ public class Engine extends JFrame implements ActionListener {
             cellName.setText((escapeRoom.getCell(currentPos[0], currentPos[1])).getName());
 
             if ((escapeRoom.getCell(currentPos[0], currentPos[1])).isSolved()) {
-                cellDesc.setText((escapeRoom.getCell(currentPos[0], currentPos[1])).getSolveMessage());
+                cellDesc.setText("<html>" + (escapeRoom.getCell(currentPos[0], currentPos[1])).getSolveMessage() + "</html>");
             }
             else {
-                cellDesc.setText((escapeRoom.getCell(currentPos[0], currentPos[1])).getDesc());
+                cellDesc.setText("<html>" + (escapeRoom.getCell(currentPos[0], currentPos[1])).getDesc() + "</html>");
             }
+
 
             // Highlight the player's current position in yellow
             buttonGrid[currentPos[0]][currentPos[1]].setBackground(Color.YELLOW);
@@ -248,7 +249,7 @@ public class Engine extends JFrame implements ActionListener {
                     int[] pos = escapeRoom.getCurrentCell();
                     Cell cell = escapeRoom.getCell(pos[0], pos[1]);
                     cell.setSolved(solved);
-                    puzzleResult.setText(cell.getSolveMessage());
+                    puzzleResult.setText("<html>" + cell.getSolveMessage() + "</html>");
                     
                     if ((cell.getPuzzle()).getPuzzleType().equals("obstacle")) {
                     	escapeRoom.removeItem(answerTF.getText());
@@ -344,7 +345,7 @@ public class Engine extends JFrame implements ActionListener {
             ArrayList<Item> items = escapeRoom.getItems();
             if (idx >= 0 && idx < items.size()) {
                 Item it = items.get(idx);
-                itemInfo.setText(it.getName() + " - " + it.getDesc());
+                itemInfo.setText("<html>" + it.getName() + " - " + it.getDesc() + "</html>");
             } else {
                 itemInfo.setText(" ");
             }
@@ -356,7 +357,7 @@ public class Engine extends JFrame implements ActionListener {
             ArrayList<Article> clues = escapeRoom.getClues();
             if (idx >= 0 && idx < clues.size()) {
                 Article cl = clues.get(idx);
-                clueInfo.setText(cl.getName() + " - " + cl.getDesc());
+                clueInfo.setText("<html>" + cl.getName() + " - " + cl.getDesc() + "</html>");
             } else {
                 clueInfo.setText(" ");
             }
@@ -436,7 +437,7 @@ public class Engine extends JFrame implements ActionListener {
 
         // show the cell's solved message if already solved
         if (cell.isSolved()) {
-            puzzleResult.setText(cell.getSolveMessage());
+        	puzzleResult.setText("<html>" + cell.getSolveMessage() + "</html>");
             answerTF.setVisible(false);
             submitAnswerButton.setVisible(false);
         } else {

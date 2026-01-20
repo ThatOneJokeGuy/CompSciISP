@@ -1,0 +1,99 @@
+9,9,
+2,2,
+:
+:
+0
+2,2,
+Dungeon Door
+A heavy oak door blocks the way. A sign reads: "Speak the password, adventurer."
+riddle
+0
+please
+false
+Entrance Hall
+You stand in a dramatic hallway. It smells like old books and poor decisions.
+The door clicks open and a tiny fanfare plays from nowhere.
+false
+Note
+A sticky note: "Manners are the real magic."
+2,3,
+Goblin Riddle
+A goblin squeaks: "I have keys but open no locks. I have space but no room. You can enter but can't go outside. What am I?"
+riddle
+0
+keyboard
+false
+Goblin Checkpoint
+A goblin guards a desk covered in crumbs and dice.
+The goblin gasps, salutes you, and hands over a key like it's legendary loot.
+true
+Rusty Key
+A key that has survived three campaigns and a soda spill.
+false
+3,3,
+Mimic Tax
+A chest growls: "Pay the mimic tax (enter the exact number). Hint: d20 critical success."
+combination
+0
+20
+false
+Suspicious Chest Room
+A treasure chest sits perfectly centered. Definitely normal. Definitely not hungry.
+The chest purrs. You are now morally allowed to take the contents.
+false
+Clue Scroll
+A scroll reading: "The wizard's lunch order is the code. Yes, really."
+3,4,
+Wizard Lunch Code
+A wizard mutters: "My lunch order is a sacred number... the same as the number of sides on a d12."
+combination
+0
+12
+false
+Wizard Break Room
+A wizard is microwaving fish. The true final boss.
+The wizard nods and hands you a strange snack with extreme seriousness.
+true
+Bag of Holding Chips
+A bag that is somehow larger on the inside. Also mostly air.
+false
+4,4,
+Gelatinous Cube Problem
+A shimmering cube blocks the hall. A sign reads: "Insert item to safely proceed."
+obstacle
+0
+Bag of Holding Chips
+false
+Cube Corridor
+A translucent cube wobbles politely, as if waiting its turn in line.
+The cube slurps the chips and moves aside. You can hear it chewing in 5.1 surround sound.
+false
+Slime Receipt
+A slimy receipt: "Paid: 1 (one) snack. Tip included."
+4,5,
+Dragon Compliment
+A tiny dragon demands: "Compliment me properly to pass. One word."
+riddle
+0
+magnificent
+false
+Dragon Alcove
+A tiny dragon poses dramatically on a rock, practicing a roar in falsetto.
+The dragon blushes, opens a secret latch, and pretends it was your idea.
+true
+Shiny Key
+A key that sparkles like it knows it's important.
+false
+5,5,
+Final Gate
+A final gate stands tall. A plaque reads: "Only the SHINY KEY may pass. (No refunds.)"
+obstacle
+0
+Shiny Key
+false
+Exit Gate
+The gate hums with ancient magic and modern bureaucracy.
+The gate opens. Confetti falls. A voice says: "Session complete. Level up responsibly."
+false
+Victory Note
+A note: "You escaped! Please return all borrowed dice to the tray."
