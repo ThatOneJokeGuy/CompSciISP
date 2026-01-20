@@ -8,6 +8,7 @@ package escapeRoomEngine;
  */
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -76,8 +77,13 @@ public class Engine extends JFrame implements ActionListener {
     private JLabel clueInfo = new JLabel(" ");
 
     // Puzzle UI components
+    private String[] numList = {"1","2","3","4","5","6","7","8","9","0"};
     private JLabel puzzleTitle = new JLabel("Puzzle: ");
     private JLabel puzzleDesc = new JLabel(" ");
+    private JComboBox<String> comboLockNum1 = new JComboBox<String>(numList);
+    private JComboBox<String> comboLockNum2 = new JComboBox<String>(numList);
+    private JComboBox<String> comboLockNum3 = new JComboBox<String>(numList);
+    private JComboBox<String> comboLockNum4 = new JComboBox<String>(numList);
     private JTextField answerTF = new JTextField(); // user types puzzle answers here
     private JButton submitAnswerButton = new JButton("Submit");
     private JLabel puzzleResult = new JLabel(" ");
@@ -153,7 +159,7 @@ public class Engine extends JFrame implements ActionListener {
 
     // Simple main to open the window
     public static void main(String[] args) {
-       Engine engine = new Engine();
+        new Engine();
     }
 
     // Create the 10x10 grid of JButtons and add ActionListeners
@@ -204,12 +210,11 @@ public class Engine extends JFrame implements ActionListener {
             cellName.setText((escapeRoom.getCell(currentPos[0], currentPos[1])).getName());
 
             if ((escapeRoom.getCell(currentPos[0], currentPos[1])).isSolved()) {
-                cellDesc.setText("<html>" + (escapeRoom.getCell(currentPos[0], currentPos[1])).getSolveMessage() + "</html>");
+                cellDesc.setText((escapeRoom.getCell(currentPos[0], currentPos[1])).getSolveMessage());
             }
             else {
-                cellDesc.setText("<html>" + (escapeRoom.getCell(currentPos[0], currentPos[1])).getDesc() + "</html>");
+                cellDesc.setText((escapeRoom.getCell(currentPos[0], currentPos[1])).getDesc());
             }
-
 
             // Highlight the player's current position in yellow
             buttonGrid[currentPos[0]][currentPos[1]].setBackground(Color.YELLOW);
@@ -238,18 +243,33 @@ public class Engine extends JFrame implements ActionListener {
             return;
         }
 
+        
+        
         // Submit answer button inside puzzle panel
         if (component.equals(submitAnswerButton)) {
         	
+        	int[] pos = escapeRoom.getCurrentCell();
+            Cell cell = escapeRoom.getCell(pos[0], pos[1]);
+        	
             if (roomLoaded) {
                 // attempt to solve current cell's puzzle using typed answer
-                boolean solved = escapeRoom.solveCurrentCell(answerTF.getText());
+            	String attemptedAnswer = null;
+            	if ((cell.getPuzzle()).getPuzzleType().equals("combination")) {
+            		int num1 = comboLockNum1.getSelectedIndex() + 1;
+            		int num2 = comboLockNum2.getSelectedIndex() + 1;
+            		int num3 = comboLockNum3.getSelectedIndex() + 1;
+            		int num4 = comboLockNum4.getSelectedIndex() + 1;
+            		attemptedAnswer = Integer.toString(num1) + Integer.toString(num2) + Integer.toString(num3) + Integer.toString(num4);
+            		System.out.println(attemptedAnswer);
+            	}
+            	else {
+            		attemptedAnswer = answerTF.getText();
+            	}
+            	boolean solved = escapeRoom.solveCurrentCell(attemptedAnswer);
                 
                 if (solved) {
-                    int[] pos = escapeRoom.getCurrentCell();
-                    Cell cell = escapeRoom.getCell(pos[0], pos[1]);
                     cell.setSolved(solved);
-                    puzzleResult.setText("<html>" + cell.getSolveMessage() + "</html>");
+                    puzzleResult.setText(cell.getSolveMessage());
                     
                     if ((cell.getPuzzle()).getPuzzleType().equals("obstacle")) {
                     	escapeRoom.removeItem(answerTF.getText());
@@ -322,9 +342,10 @@ public class Engine extends JFrame implements ActionListener {
                 }
             }
         }
+
     }
 
-    // Build the Inventory and Puzzle panels and connect their internal listeners
+    // Build the Inventory and Puzzle panels and wire their internal listeners
     private void setupSelectedBoxTabs() {
         selectedBox.setLayout(new BorderLayout());
         selectedBox.add(cardPanel, BorderLayout.CENTER);
@@ -345,7 +366,7 @@ public class Engine extends JFrame implements ActionListener {
             ArrayList<Item> items = escapeRoom.getItems();
             if (idx >= 0 && idx < items.size()) {
                 Item it = items.get(idx);
-                itemInfo.setText("<html>" + it.getName() + " - " + it.getDesc() + "</html>");
+                itemInfo.setText(it.getName() + " - " + it.getDesc());
             } else {
                 itemInfo.setText(" ");
             }
@@ -357,7 +378,7 @@ public class Engine extends JFrame implements ActionListener {
             ArrayList<Article> clues = escapeRoom.getClues();
             if (idx >= 0 && idx < clues.size()) {
                 Article cl = clues.get(idx);
-                clueInfo.setText("<html>" + cl.getName() + " - " + cl.getDesc() + "</html>");
+                clueInfo.setText(cl.getName() + " - " + cl.getDesc());
             } else {
                 clueInfo.setText(" ");
             }
@@ -368,6 +389,10 @@ public class Engine extends JFrame implements ActionListener {
         puzzlePanel.add(puzzleTitle);
         puzzlePanel.add(puzzleDesc);
         puzzlePanel.add(new JLabel("Answer:"));
+        puzzlePanel.add(comboLockNum1);
+        puzzlePanel.add(comboLockNum2);
+        puzzlePanel.add(comboLockNum3);
+        puzzlePanel.add(comboLockNum4);
         puzzlePanel.add(answerTF);
         puzzlePanel.add(submitAnswerButton);
         puzzlePanel.add(puzzleResult);
@@ -415,13 +440,30 @@ public class Engine extends JFrame implements ActionListener {
     // Update the puzzle panel to show the puzzle for the current cell
     private void refreshPuzzlePanel() {
         if (!roomLoaded) return;
-        
-        answerTF.setVisible(true);
-        answerTF.setText("");
-        submitAnswerButton.setVisible(true);
 
+        comboLockNum1.setVisible(false);
+    	comboLockNum2.setVisible(false);
+    	comboLockNum3.setVisible(false);
+    	comboLockNum4.setVisible(false);
         int[] pos = escapeRoom.getCurrentCell();
         Cell cell = escapeRoom.getCell(pos[0], pos[1]);
+        
+        if (escapeRoom.getCell(pos[0], pos[1]).getPuzzle().getPuzzleType().equals("combination")) {
+        	comboLockNum1.setSelectedIndex(9);
+        	comboLockNum2.setSelectedIndex(9);
+        	comboLockNum3.setSelectedIndex(9);
+        	comboLockNum4.setSelectedIndex(9);
+        	comboLockNum1.setVisible(true);
+        	comboLockNum2.setVisible(true);
+        	comboLockNum3.setVisible(true);
+        	comboLockNum4.setVisible(true);
+        	answerTF.setVisible(false);
+        }
+        else {
+        	answerTF.setVisible(true);
+            answerTF.setText("");
+        }
+        submitAnswerButton.setVisible(true);
 
         if (cell == null) {
             puzzleTitle.setText("Puzzle: (none)");
@@ -437,11 +479,16 @@ public class Engine extends JFrame implements ActionListener {
 
         // show the cell's solved message if already solved
         if (cell.isSolved()) {
-        	puzzleResult.setText("<html>" + cell.getSolveMessage() + "</html>");
+            puzzleResult.setText(cell.getSolveMessage());
+            comboLockNum1.setVisible(false);
+            comboLockNum2.setVisible(false);
+            comboLockNum3.setVisible(false);
+            comboLockNum4.setVisible(false);
             answerTF.setVisible(false);
             submitAnswerButton.setVisible(false);
         } else {
             puzzleResult.setText(" ");
         }
     }
+    
 }
