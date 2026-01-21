@@ -93,7 +93,14 @@ public class Engine extends JFrame implements ActionListener {
 
 	// Constructor: build the UI and wire listeners (no game loaded yet)
 	public Engine() {
+		// sets roomLoaded to false for until the user loads a room
 		roomLoaded = false;
+		
+		// sets the combination locks to invisible on startup
+		comboLockNum1.setVisible(false);
+		comboLockNum2.setVisible(false);
+		comboLockNum3.setVisible(false);
+		comboLockNum4.setVisible(false);
 
 		// The window changes sizes but the Layout stays the same
 		setLayout(new BorderLayout());
@@ -165,11 +172,6 @@ public class Engine extends JFrame implements ActionListener {
 
 		setSize(800, 500);
 		setVisible(true);
-	}
-
-	// Simple main to open the window
-	public static void main(String[] args) {
-		new Engine();
 	}
 
 	// Create the 10x10 grid of JButtons and add ActionListeners
@@ -257,10 +259,10 @@ public class Engine extends JFrame implements ActionListener {
 		// Submit answer button inside puzzle panel
 		if (component.equals(submitAnswerButton)) {
 
-			int[] pos = escapeRoom.getCurrentCell();
-			Cell cell = escapeRoom.getCell(pos[0], pos[1]);
-
 			if (roomLoaded) {
+				int[] pos = escapeRoom.getCurrentCell();
+				Cell cell = escapeRoom.getCell(pos[0], pos[1]);
+				
 				// attempt to solve current cell's puzzle using typed answer
 				String attemptedAnswer = null;
 				if ((cell.getPuzzle()).getPuzzleType().equals("combination")) {
@@ -329,6 +331,20 @@ public class Engine extends JFrame implements ActionListener {
 				System.out.println("Error! File cannot be saved!");
 			}
 
+		}
+		else if (resetButton.equals(component) && (roomLoaded)) {
+			
+			try {
+				File myFile = new File("src/" + fileNameTF.getSelectedItem() + ".txt");
+				escapeRoom.resetFile(myFile);
+				updateGrid();
+				refreshInventoryPanel();
+				refreshPuzzlePanel();
+			}
+			catch (FileNotFoundException ex) {
+				System.out.println("Error! File cannot be saved!");
+			}
+			
 		}
 		else {
 
