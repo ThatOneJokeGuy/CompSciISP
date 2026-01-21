@@ -1,14 +1,5 @@
 package escapeRoomEngine;
 
-
-
-/*
- * Item
- * - breakable : boolean
- * - useCount  : int
- * + use() : void
- * + canBreak() : boolean
- */
 public class Item extends Article {
     private boolean breakable;
     private int useCount;

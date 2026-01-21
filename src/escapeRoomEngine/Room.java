@@ -140,7 +140,7 @@ public class Room {
 			for (int c = 0; c < cells[r].length; c++) {
 				
 				if (cells[r][c] != null) {
-					System.out.println("Calling save cells");
+					//System.out.println("Calling save cells");
 					resetCells(PW, r, c);
 				}
 			}
@@ -232,7 +232,7 @@ public class Room {
 
 		// reads next line
 		currentLine = fsc.nextLine();
-		System.out.println(currentLine);
+		//System.out.println(currentLine);
 
 		// checks if the user last saved with any items in their inventory
 		if (!(currentLine.equals(":"))) {
@@ -245,7 +245,7 @@ public class Room {
 
 		// fetches the total number of puzzle attempts for the room
 		attempts = Integer.parseInt(fsc.nextLine());
-		System.out.println(attempts);
+		//System.out.println(attempts);
 		// iterates through the rest of the file while there are rooms to load
 		while (fsc.hasNext()) {
 			initializeCell(fsc);
@@ -293,7 +293,7 @@ public class Room {
 			for (int c = 0; c < cells[r].length; c++) {
 				
 				if (cells[r][c] != null) {
-					System.out.println("Calling save cells");
+					//System.out.println("Calling save cells");
 					saveCells(PW, r, c);
 				}
 			}
@@ -399,7 +399,7 @@ public class Room {
 	private void initializeCell(Scanner fsc) {
 		// gets the position of the cell in the 2d array from the file
 		String[] cellPosition = (fsc.nextLine()).split(",");
-		System.out.println("Cell position is " + cellPosition[0] + "," + cellPosition[1]);
+		//System.out.println("Cell position is " + cellPosition[0] + "," + cellPosition[1]);
 		// gets the name of the puzzle in the cell
 		String puzzleName = fsc.nextLine();
 		// gets the description of the puzzle in the cell
@@ -449,12 +449,12 @@ public class Room {
 		
 
 		// creates an object for the cell's puzzle
-		System.out.println(cellPuzzle.getSolution());
+		//System.out.println(cellPuzzle.getSolution());
 		// creates a sample item for the cell's reward
 		Item cellReward = new Item(articleName, articleDesc, itemBreaks);
 		// adds the completed cell to the cells 2d array
 		cells[Integer.parseInt(cellPosition[0])][Integer.parseInt(cellPosition[1])] = new Cell(cellName, cellDesc, solveMessage, puzzleSolved, cellGivesItem, cellReward, cellPuzzle);
-		System.out.println(cells[Integer.parseInt(cellPosition[0])][Integer.parseInt(cellPosition[1])]);
+		//System.out.println(cells[Integer.parseInt(cellPosition[0])][Integer.parseInt(cellPosition[1])]);
 	}
 
 	/**

@@ -29,7 +29,6 @@ public class Engine extends JFrame implements ActionListener {
 	private JLabel ERNameLabel = new JLabel("unloaded");
 
 	// Layout panels for the main window
-	private JPanel bottomPanel = new JPanel(); // not used yet
 	private JPanel leftPanel = new JPanel();   // contains the grid and cell info
 	private JPanel rightPanel = new JPanel();  // contains controls, inventory, puzzles
 
@@ -59,7 +58,7 @@ public class Engine extends JFrame implements ActionListener {
 	private JLabel space2 = new JLabel("  ");
 	private JButton saveButton = new JButton("Save");
 	private JButton loadButton = new JButton("Load");
-	private JButton resetButton = new JButton("Reset Game");
+	private JButton resetButton = new JButton("Reset Room");
 	private JComboBox<String> fileNameTF;
 
 	
@@ -67,7 +66,7 @@ public class Engine extends JFrame implements ActionListener {
 	private JPanel topSaveLoadPanel = new JPanel();
 	private JPanel bottomSaveLoadPanel = new JPanel();
 
-	private JLabel fileNameL = new JLabel("Puzzle Name: ");
+	private JLabel fileNameL = new JLabel("Escape Rooms: ");
 
 	// CardLayout to switch between Inventory and Puzzle views inside selectedBox
 	private CardLayout cardLayout = new CardLayout();
@@ -179,7 +178,6 @@ public class Engine extends JFrame implements ActionListener {
 
 		// initialize each button slot so there is a clickable grid.
 		for (int r = 0; r < buttonGrid.length; r++) {
-
 			for (int c = 0; c < buttonGrid[r].length; c++) {
 				buttonGrid[r][c] = new JButton();
 				buttonGrid[r][c].setPreferredSize(buttonGridDimension);
@@ -217,8 +215,6 @@ public class Engine extends JFrame implements ActionListener {
 			}
 
 			// Update info for the currently selected cell
-			System.out.println(currentPos[0] + "," + currentPos[1]);
-			System.out.println(escapeRoom.getCell(currentPos[0], currentPos[1]));
 			cellName.setText((escapeRoom.getCell(currentPos[0], currentPos[1])).getName());
 
 			if ((escapeRoom.getCell(currentPos[0], currentPos[1])).isSolved()) {
@@ -271,7 +267,6 @@ public class Engine extends JFrame implements ActionListener {
 					int num3 = comboLockNum3.getSelectedIndex() + 1;
 					int num4 = comboLockNum4.getSelectedIndex() + 1;
 					attemptedAnswer = Integer.toString(num1) + Integer.toString(num2) + Integer.toString(num3) + Integer.toString(num4);
-					System.out.println(attemptedAnswer);
 				}
 				else {
 					attemptedAnswer = answerTF.getText();
@@ -375,7 +370,7 @@ public class Engine extends JFrame implements ActionListener {
 		selectedBox.setLayout(new BorderLayout());
 		selectedBox.add(cardPanel, BorderLayout.CENTER);
 
-		// -------- Inventory Panel --------
+		// Inventory Panel
 		JPanel invPanel = new JPanel(new GridLayout(0, 1, 6, 6));
 		invPanel.add(new JLabel("Items:"));
 		invPanel.add(itemBox);

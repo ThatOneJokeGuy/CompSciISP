@@ -1,15 +1,5 @@
 package escapeRoomEngine;
 
-
-/*
- * Article
- * - name : String
- * - desc : String
- * + getName() : String
- * + getDesc() : String
- * + setName(name : String) : void
- * + setDesc(desc : String) : void
- */
 public class Article {
     private String name;
     private String desc;
