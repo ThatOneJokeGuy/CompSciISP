@@ -54,16 +54,20 @@ public class Engine extends JFrame implements ActionListener {
 	// Panel that holds either the Inventory UI or Puzzle UI (uses CardLayout)
 	private JPanel selectedBox = new JPanel();
 
-	// Save / Load controls
-	private JLabel space = new JLabel("            ");
+	// Save / Load and reset controls
+	private JLabel space = new JLabel("  ");
+	private JLabel space2 = new JLabel("  ");
 	private JButton saveButton = new JButton("Save");
 	private JButton loadButton = new JButton("Load");
-	private JTextField fileNameTF = new JTextField("File Name Goes Here", 14); // compact width
+	private JButton resetButton = new JButton("Reset Game");
+	private JComboBox<String> fileNameTF;
+
+	
 	private JPanel saveLoadPanel = new JPanel();
 	private JPanel topSaveLoadPanel = new JPanel();
 	private JPanel bottomSaveLoadPanel = new JPanel();
 
-	private JLabel fileNameL = new JLabel("File Name: ");
+	private JLabel fileNameL = new JLabel("Puzzle Name: ");
 
 	// CardLayout to switch between Inventory and Puzzle views inside selectedBox
 	private CardLayout cardLayout = new CardLayout();
@@ -134,8 +138,15 @@ public class Engine extends JFrame implements ActionListener {
 		saveButton.addActionListener(this);
 		topSaveLoadPanel.add(space);
 		topSaveLoadPanel.add(loadButton);
+		topSaveLoadPanel.add(space2);
+		topSaveLoadPanel.add(resetButton);
 		loadButton.addActionListener(this);
+		resetButton.addActionListener(this);
+		
+		String[] fileNames = {"escape1", "escape2", "escape3"};
+		fileNameTF = new JComboBox<String>(fileNames);
 
+		
 		bottomSaveLoadPanel.add(fileNameL);
 		bottomSaveLoadPanel.add(fileNameTF);
 
@@ -288,10 +299,10 @@ public class Engine extends JFrame implements ActionListener {
 		if (component.equals(loadButton)) {
 
 			try {
-				File myFile = new File("src/" + fileNameTF.getText() + ".txt");
+				File myFile = new File("src/" + fileNameTF.getSelectedItem() + ".txt");
 				escapeRoom.load(myFile);
 
-				ERNameLabel.setText(fileNameTF.getText());
+				ERNameLabel.setText(fileNameTF.getSelectedItem().toString());
 				roomLoaded = true;
 
 				updateGrid();
@@ -311,7 +322,7 @@ public class Engine extends JFrame implements ActionListener {
 
 			// Save button: write room to src/<filename>.txt
 			try {
-				File myFile = new File("src/" + fileNameTF.getText() + ".txt");
+				File myFile = new File("src/" + fileNameTF.getSelectedItem() + ".txt");
 				escapeRoom.save(myFile);
 			}
 			catch (FileNotFoundException ex) {

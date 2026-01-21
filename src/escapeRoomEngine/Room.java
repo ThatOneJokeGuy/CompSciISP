@@ -116,6 +116,85 @@ public class Room {
 //			}
 //		}
 //	}
+    
+    public void resetFile(File myFile) throws FileNotFoundException {
+		// creates new PrintWriter PW to save the file
+		PrintWriter PW = new PrintWriter(myFile);
+		// adds the size of the map to the file
+		PW.println((cells.length - 1) + "," + (cells[0].length - 1) + ",");
+		// adds the current position of the player to the file
+		PW.println(currentCell[0] + "," + currentCell[1] + ",");
+		
+		// prints out a colon to let the program know the user had no items when loading
+		PW.println(":");
+		
+		// prints out a colon to let the program know the user had no clues when loading
+		PW.println(":");
+		
+		// writes the number of room attempts to the file
+		PW.println(0);
+		
+		// iterates through the map and saves the cells to the file
+		for (int r = 0; r < cells.length; r++) {
+			
+			for (int c = 0; c < cells[r].length; c++) {
+				
+				if (cells[r][c] != null) {
+					System.out.println("Calling save cells");
+					resetCells(PW, r, c);
+				}
+			}
+		}
+		
+		// closes the PrintWriters stream
+		PW.close();
+		
+		load(myFile);
+    }
+    
+    public void resetCells(PrintWriter PW, int r, int c) {
+		// adds the position of the current cell on the map to the file
+		PW.println(r + "," + c + ",");
+		Cell beingSaved = cells[r][c];
+		
+		// gets the cells puzzle
+		PuzzleModule cellPuzzle = beingSaved.getPuzzle();
+		/*
+		writes the various components of the current cells puzzle to the file,
+		those being its name, description, puzzle type, attempts, and solution
+		*/
+		PW.println(cellPuzzle.getName());
+		PW.println(cellPuzzle.getDesc());
+		PW.println(cellPuzzle.getPuzzleType());
+		// sets attempts to 0 automatically as the room is being reset
+		PW.println(0);
+		PW.println(cellPuzzle.getSolution());
+		// sets puzzle and cell to being unsolved as room is being reset
+		PW.println(false);
+		
+		/*
+		writes the various components of the current cell to the file,
+		those being its name, description, solve message, and item
+		*/
+		PW.println(beingSaved.getName());
+		PW.println(beingSaved.getDesc());
+		PW.println(beingSaved.getSolveMessage());
+		PW.println(beingSaved.givesItem());
+		
+		// gets the cells item or clue
+		Item cellItem = beingSaved.getReward();
+		// writes the articles name to the file
+		PW.println(cellItem.getName());
+		// writes the articles description to the file
+		PW.println(cellItem.getDesc());
+		
+		// checks if the article being saved is an item or a clue
+		if (beingSaved.givesItem()) {
+			// writes the items durability to the file
+			PW.println(cellItem.canBreak());
+		}
+		
+    }
 
 	/**
 	 * The load method will take in a file and load the game state saved within the file
@@ -208,10 +287,6 @@ public class Room {
 		// writes the number of room attempts to the file
 		PW.println(attempts);
 		
-		// initializes variables r and c for use of iterating through the cells
-//		int r = 0;
-//		int c = 0;
-		
 		// iterates through the map and saves the cells to the file
 		for (int r = 0; r < cells.length; r++) {
 			
@@ -223,29 +298,6 @@ public class Room {
 				}
 			}
 		}
-		
-//		
-//		while ((r < cells.length) && (c < cells[r].length)) {
-//			
-//			System.out.println("Saving cell to file");
-//			
-//			// if the current cell is not empty
-//			if (cells[r][c] != null) {
-//				// saves the cell to the file
-//				saveCells(PW, r, c);
-//			}
-//			
-//			// adds 1 to the column counter
-//			c++;
-//			
-//			// if the column of the next iteration would be out of bounds for the 2d array
-//			if ((c > cells[r].length)) {
-//				// adds 1 to row counter
-//				r++;
-//				// sets the column counter to 0
-//				c = 0;
-//			}
-//		}
 		
 		// closes the PrintWriters stream
 		PW.close();
@@ -324,32 +376,6 @@ public class Room {
 		}
 		PW.println();
 		
-		// iterates through the users items and saves their names, descriptions,
-		// and whether they can break or not to the file
-//		for (int i = 0; i < items.size(); i++) {
-//			
-//			// checks if its currently saving the names of items
-//			if (saveCount == 0) {
-//				PW.print((items.get(i)).getName() + ":");
-//			}
-//			// checks if its currently saving the descriptions of items
-//			else if (saveCount == 1) {
-//				PW.print((items.get(i)).getDesc() + ":");
-//			}
-//			// goes here if its currently saving the durability of items
-//			else {
-//				PW.print((items.get(i)).canBreak() + ":");
-//			}
-//			
-//			// checks if it needs to update the counter after saving all the names or descriptions
-//			if ((saveCount == items.size() - 1) && (saveCount < 2)) {
-//				i = 0;
-//				saveCount++;
-//				PW.println();
-//			}
-//		}
-		
-//		PW.println();
 	}
 	
 	/**
@@ -368,33 +394,6 @@ public class Room {
 		}
 		PW.println();
 		
-		/*
-		initializes int saveCount to be used as a counter 
-		to determine if the names or descriptions of clues are being saved next
-		*/
-//		int saveCount = 0;
-//		
-//		// iterates through the users clues and saves their names and descriptions to the file
-//		for (int i = 0; i < items.size(); i++) {
-//			
-//			// checks if its currently saving the names of clues
-//			if (saveCount == 0) {
-//				PW.print((clues.get(i)).getName() + ":");
-//			}
-//			// checks if its currently saving the descriptions of clues
-//			else {
-//				PW.print((clues.get(i)).getDesc() + ":");
-//			}
-//			
-//			// checks if it needs to update the counter after saving all the names
-//			if ((saveCount == clues.size() - 1) && (saveCount < 1)) {
-//				i = 0;
-//				saveCount++;
-//				PW.println();
-//			}
-//		}
-//		
-//		PW.println();
 	}
 
 	private void initializeCell(Scanner fsc) {
